@@ -1,7 +1,32 @@
 <script>
 	import { onMount } from "svelte";
-	let apiData = {"artist":{"frontFacingName":"Carpenter Brut","url":"https://open.spotify.com/artist/1l2oLiukA9i5jEtIyNWIEP"},"song":{"album":"TRILOGY","track":"Looking For Tracy Tzu","coverUrl":"https://i.scdn.co/image/ab67616d0000b2731b1d6c550aaaae5acf220e84"},"player":{"isPlaying":true,"progress":{"hms":"00:01:39","ms":99974},"duration":{"hms":"00:04:17","ms":257614},"percentage":38.80767349600565}};
-
+	let apiData = {
+		// @ts-ignore
+		song: {
+			track: "nothing",
+			coverUrl: "favicon.png"
+		},
+		artist: {
+			frontFacingName: "air_block",
+			url: "https://wav.blue/"
+		},
+		// @ts-ignore
+		player: {
+			percentage: 0
+		},
+	};
+	let apiDataMisc = "not responding";
+	let loopedText = "Waviest";
+	let possibleNames = [
+		"Waviest",
+		"Wavi",
+		"Wave",
+		"Wavey",
+		"Wavy",
+		"Wav",
+		"WaviestBalloon",
+	];
+	
 	function getApiData() {
 		fetch("https://api.wav.blue/spotify")
 			.then(response => response.json())
@@ -9,20 +34,21 @@
 				console.log(data);
 				if (!data?.error) apiData = data;
 				else {
-					console.log("API ERROR");
+					console.log("Unexpected API response");
 					apiData = {
 						// @ts-ignore
 						song: {
 							track: "nothing",
-							coverUrl: "favicon.png"
+							coverUrl: "favicon.png",
 						},
 						artist: {
-							frontFacingName: "air_block",
-							url: "https://wav.blue/"
+							frontFacingName: "block.minecraft.air",
+							url: "https://wav.blue/",
 						},
 						// @ts-ignore
 						player: {
-							percentage: 0
+							percentage: 0,
+							isPlaying: true,
 						},
 					};
 				}
@@ -31,27 +57,74 @@
 				return [];
 			});
 	}
+	function refreshDesktopStatus() {
+		fetch("https://api.wav.blue/pc")
+			.then(response => response.json())
+			.then(data => {
+				apiDataMisc = data?.message;
+			}).catch(error => {
+				console.log(error);
+				apiDataMisc = "not responding";
+				return [];
+			});
+	}
 
 	onMount(async () => {
 		getApiData();
+		refreshDesktopStatus();
 		setInterval(() => {
 			getApiData();
 		}, 6000);
+		setInterval(() => {
+			/**
+			* @type {string | null}
+			*/
+			let prev = null;
+			let intervalId = setInterval(() => {
+				if (loopedText.length >= 1) {
+					loopedText = loopedText.slice(1);
+				} else {
+					setTimeout(() => {
+						let newer = possibleNames[Math.floor(Math.random() * possibleNames.length)];
+						if (newer === prev) {
+							newer = possibleNames[Math.floor(Math.random() * possibleNames.length)];
+						} else {
+							loopedText = newer;
+							prev = newer;
+						}
+					}, 500);
+					clearInterval(intervalId);
+				}
+			}, 50);
+		}, 5850);
 	});
 </script>
+<span class="screenoverlay">
+	<img src="https://fur.dev/assets/corner.svg" alt="Corner" class="left cornerboilerplate" width="35rem">
+	<img src="https://fur.dev/assets/corner.svg" alt="Corner" class="right cornerboilerplate" width="35rem">
+	<img src="https://fur.dev/assets/corner.svg" alt="Corner" class="bottomleft cornerboilerplate" width="35rem">
+	<img src="https://fur.dev/assets/corner.svg" alt="Corner" class="bottomright cornerboilerplate" width="35rem">
+</span>
 
-<!--<h1>> <span class="gradtext">WAVIEST</span></h1>-->
+<div class="mainheader">
+	<h1>Hi, I'm <span class="gradtext">{loopedText}</span>! <span style="font-size: x-small;">(&gtω&lt)</span></h1>
 
-<center>
-	<p>
-		Currently listening to <b>{apiData.song.track}</b>, by <b>{apiData.artist.frontFacingName}</b>...
-		<br>{#if apiData.player.isPlaying}
-		<code>PLAYING</code>
-	{:else}
-		<code>PAUSED</code>
-	{/if}<code> -> {Math.floor(apiData.player.percentage)}%</code>
-		<br><br><img src={apiData.song.coverUrl} style="border-radius: 0.55rem;" alt="Album cover" width="200" height="200" />
-		<br><br>
-		<button class="badgebtn-warning" on:click={getApiData}>REFRESH</button>
-	</p>
-</center>
+	<div class="card music">
+		<img class="icon" src="/icons/music.svg" alt="Music icon">
+		<div>
+			<span class="cardtext">{#if apiData.player.isPlaying}Listening to{:else}Paused on{/if} <b><code class="musicdesc">{apiData.song.track}</code></b>, by <b><code class="musicdesc">{apiData.artist.frontFacingName}</code></b>... [ {Math.floor(apiData.player.percentage)}% ]</span>
+			<br>
+			<img src="{apiData.song.coverUrl}" alt="Album cover" class="coverart" width="125rem">
+		</div>
+	</div>
+	<br>
+	<div class="card">
+		<img class="icon" src="/icons/pc.svg" alt="Computer icon">
+		<div>
+			<span class="cardtext">My desktop is currently <b><code class="musicdesc">{apiDataMisc}</code></b>...</span>
+			<br>
+			<button class="badgebtn warning" style="margin-left: 0px; margin-top: 0.15rem;" on:click={refreshDesktopStatus}>REFRESH</button>
+		</div>
+	</div>
+	<br>
+</div>

@@ -18,7 +18,8 @@ body {
 	background-repeat: repeat;
 	scroll-behavior: smooth;
 	font-family: gotham;
-	color: #ffffff;
+	/*color: #ffffff;*/
+	color: #bedefa;
 }
 input:focus,
 select:focus,
@@ -113,7 +114,7 @@ b {
 	font-family: gothambold;
 }
 
-.card {
+.cardold {
 	width: 500px;
 	aspect-ratio: 3 / 2;
 	margin: 0.85rem;
@@ -150,48 +151,8 @@ b {
 	margin-top: 8px;
 	margin-bottom: 10px;
 }
-.blogcardcontent {
-	overflow-y: scroll;
-	height: calc(100% - 70px);
-	padding-left: 5px;
-	padding-right: 5px;
-	padding-top: 5px;
-	padding-bottom: 5px;
-}
-.blogsearch {
-	width: 350px;
-	margin: 0.85rem;
-	border: #2b2b2b 0.1rem solid;
-	border-radius: 0.45rem;
-	margin-top: 0px;
-	margin-left: 0px;
-	margin-bottom: 0px;
-	margin-right: 0px;
-	overflow: hidden;
-	background-color: #2b2b2ba6;
-	color: white;
-	font-family: "Lucida Console", monospace;
-	font-size: small;
-	
-	transition: all 0.2s ease-in-out;
-}
-.blogsearch:hover {
-	background-color: #202020;
-	border: #202020 0.1rem solid;
-	border-radius: 0rem;
-	box-shadow: 0px 0px 25px 5px #202020;
-}
-.blogsearch:focus {
-	background-color: #ffffff;
-	border: #ffffff 0.1rem solid;
-	border-radius: 0rem;
-	border-left: #ffffff 0.35rem solid;
-	border-right: #ffffff 0.35rem solid;
-	box-shadow: 0px 0px 25px 5px #ffffff;
-	color: black;
-}
 
-.card > img {
+.cardold > img {
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
@@ -200,12 +161,12 @@ b {
 	overflow: hidden;
 	transition: all 0.2s ease-in-out;
 }
-.card > img:hover {
+.cardold > img:hover {
 	-webkit-filter: url(#noise);
 	filter: url("#noise") brightness(1) saturate(1);
 	overflow: hidden;
 }
-.card > p {
+.cardold > p {
 	position: absolute;
 	margin-top: -25px;
 	margin-bottom: 0px;
@@ -217,7 +178,6 @@ b {
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
 	text-shadow: 0 0px 45px #d2d5f2;
-	font-size: larger;
 }
 .basetext {
 	font-size: large;
@@ -297,28 +257,6 @@ b {
 .btn:hover {
 	background-color: #e8c8e8;
 }
-.banner-warning {
-	background-color: rgba(255, 216, 97, 0.75);
-	box-shadow: 0 0 45px 0.5px rgba(255, 216, 97, 0.55);
-	padding: 5px;
-	border-radius: 5px;
-	margin: 0 auto;
-	margin-top: 1%;
-
-	display: block;
-	align-items: center;
-}
-.banner-basic {
-	background-color: rgba(32, 32, 32, 0.75);
-	box-shadow: 0 0 45px 0.5px rgba(32, 32, 32, 0.75);
-	padding: 5px;
-	border-radius: 5px;
-	margin: 0 auto;
-	margin-top: 1%;
-
-	display: block;
-	align-items: center;
-}
 
 .badgebtn {
 	background-color: #3131319a;
@@ -337,16 +275,17 @@ b {
 	transition: all 0.2s ease-in-out;
 }
 .badgebtn:hover {
-	background-color: #202020;
-	border: #202020 0.1rem solid;
-	border-left: #202020 0.55rem solid;
-	border-right: #202020 0.55rem solid;
-	box-shadow: 0px 0px 25px 8.5px #202020;
+	background-color: #303030;
+	border: #303030 0.1rem solid;
+	border-left: #303030 0.55rem solid;
+	border-right: #303030 0.55rem solid;
+	box-shadow: 0px 0px 25px 8.5px #303030;
 }
-.badgebtn-warning {
+.warning {
 	background-color: #ff5c5c9a;
 	border: #ff5c5c 0.1rem solid;
-	box-shadow: 0px 0px 50px 0px #ff5c5c9a;
+	/*box-shadow: 0px 0px 50px 0px #ff5c5c9a;*/
+	box-shadow: 0px 0px 0px 0px #ff5c5c9a;
 	padding: 0.35rem;
 	margin: 0.15rem;
 	padding-left: 7px;
@@ -359,7 +298,7 @@ b {
 	
 	transition: all 0.2s ease-in-out;
 }
-.badgebtn-warning:hover {
+.warning:hover {
 	background-color: #ff5c5c;
 	border: #ff5c5c 0.1rem solid;
 	border-left: #ff5c5c 0.55rem solid;
@@ -367,16 +306,51 @@ b {
 	box-shadow: 0px 0px 25px 8.5px #ff49499a;
 }
 
-.languPadding {
-	padding-left: 15px;
-	padding-right: 15px;
+.card {
+	background-color: #e2e2e215;
+	border: #272a2c 0.1rem solid;
+
+	padding: 0.35rem;
+	margin: 0.15rem;
+	padding-left: 7px;
+	padding-right: 7px;
+	font-family: "Lucida Console", monospace;
+	width: auto;
+	height: auto;
+	overflow: hidden;
+	/*display: inline flow-root list-item;*/
+	display: -webkit-inline-box;
+	transition: all 1.2s ease-in-out;
+}
+.music {
+	background-position: 50% 50%;
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+}
+.musicdesc {
+	font-size: larger;
+}
+.coverart {
+	width: 4rem;
+	height: 4rem;
+	margin-top: 5px;
+	margin-top: 3px;
 }
 
 
 h1 {
-	font-size: 2.5rem !important;
+	font-size: 3.55rem !important;
 }
 .mainheader {
 	margin-top: 25px;
 	margin-left: 25px;
+}
+.icon {
+	width: 1.25rem !important;
+	margin-bottom: -3.5px;
+	margin-right: 5px;
+}
+.cardtext {
+	font-family: gotham;
 }
