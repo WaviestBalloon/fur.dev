@@ -112,7 +112,7 @@
 	<div class="card music">
 		<img class="icon" src="/icons/music.svg" alt="Music icon">
 		<div>
-			<span class="cardtext">{#if apiData.player.isPlaying}Listening to{:else}Paused on{/if} <b><code class="musicdesc">{apiData.song.track}</code></b>, by <b><code class="musicdesc">{apiData.artist.frontFacingName}</code></b>... [ {Math.floor(apiData.player.percentage)}% ]</span>
+			<span class="cardtext">{#if apiData.player.isPlaying}Listening to{:else}Paused on{/if} <b><code class="musicdesc">{apiData.song.track}</code></b>, by <b><code class="musicdesc">{apiData.artist.frontFacingName}</code></b>...</span>
 			<br>
 			<img src="{apiData.song.coverUrl}" alt="Album cover" class="coverart" width="125rem">
 		</div>
