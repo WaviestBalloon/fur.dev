@@ -117,7 +117,6 @@
 			<br>
 			<img src="{apiData.song.coverUrl}" alt="Album cover" class="coverart" width="125rem">
 		</div>
-		<div>a</div>
 	</div>
 	<br>
 	<div class="card">
