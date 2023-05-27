@@ -4,15 +4,16 @@
 		// @ts-ignore
 		song: {
 			track: "nothing",
-			coverUrl: "favicon.png"
+			coverUrl: "favicon.png",
 		},
 		artist: {
 			frontFacingName: "air_block",
-			url: "https://wav.blue/"
+			url: "https://wav.blue/",
 		},
 		// @ts-ignore
 		player: {
-			percentage: 0
+			percentage: 0,
+			isPlaying: true,
 		},
 	};
 	let apiDataMisc = "not responding";
@@ -64,7 +65,7 @@
 				apiDataMisc = data?.message;
 			}).catch(error => {
 				console.log(error);
-				apiDataMisc = "not responding";
+				apiDataMisc = "not responding to pings";
 				return [];
 			});
 	}
@@ -116,6 +117,7 @@
 			<br>
 			<img src="{apiData.song.coverUrl}" alt="Album cover" class="coverart" width="125rem">
 		</div>
+		<div>a</div>
 	</div>
 	<br>
 	<div class="card">
