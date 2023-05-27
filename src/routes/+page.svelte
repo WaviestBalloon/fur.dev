@@ -1,19 +1,17 @@
 <script>
 	import { onMount } from "svelte";
 	let apiData = {
-		// @ts-ignore
 		song: {
 			track: "nothing",
 			coverUrl: "favicon.png",
 		},
 		artist: {
-			frontFacingName: "air_block",
+			frontFacingName: "block.minecraft.air",
 			url: "https://wav.blue/",
 		},
-		// @ts-ignore
 		player: {
 			percentage: 0,
-			isPlaying: true,
+				isPlaying: true,
 		},
 	};
 	let apiDataMisc = "not responding";
@@ -33,28 +31,48 @@
 			.then(response => response.json())
 			.then(data => {
 				console.log(data);
-				if (!data?.error) apiData = data;
+				const code = data?.code;
+				if (code === 0) apiData = data;
 				else {
 					console.log("Unexpected API response");
-					apiData = {
-						// @ts-ignore
-						song: {
-							track: "nothing",
-							coverUrl: "favicon.png",
-						},
-						artist: {
-							frontFacingName: "block.minecraft.air",
-							url: "https://wav.blue/",
-						},
-						// @ts-ignore
-						player: {
-							percentage: 0,
-							isPlaying: true,
-						},
-					};
+					switch (code) {
+						case 5:
+							apiData = {
+								song: {
+									track: "a ad",
+									coverUrl: "favicon.png",
+								},
+								artist: {
+									frontFacingName: "Spotify",
+									url: "https://wav.blue/",
+								},
+								player: {
+									percentage: 0,
+									isPlaying: true,
+								},
+							};
+							break;
+						default:
+							console.log("Res API code: " + code)
+							apiData = {
+								song: {
+									track: "nothing",
+									coverUrl: "favicon.png",
+								},
+								artist: {
+									frontFacingName: "block.minecraft.air",
+									url: "https://wav.blue/",
+								},
+								player: {
+									percentage: 0,
+									isPlaying: true,
+								},
+							};
+							break;
+					}
 				}
 			}).catch(error => {
-				console.log(error);
+				console.error(error);
 				return [];
 			});
 	}
@@ -64,18 +82,37 @@
 			.then(data => {
 				apiDataMisc = data?.message;
 			}).catch(error => {
-				console.log(error);
-				apiDataMisc = "not responding to pings";
+				console.error(error);
 				return [];
 			});
 	}
+	let stupid = [
+		"ihatethishackercrap.mp3",
+		"hno1.mp3",
+		"hno3.mp3",
+		"noalso.mp3",
+		"mno1.mp3",
+		"mno3.mp3",
+		"buzzer.mp3",
+		"no.mp3",
+		"disc.mp3",
+		"death.mp3",
+		"bye.mp3",
+		"anger.mp3",
+		"portal2buzzer.mp3",
+	];
+	function thefunny() { new Audio(`sounds/${stupid[Math.floor(Math.random() * stupid.length)]}`).play(); }
 
 	onMount(async () => {
-		getApiData();
-		refreshDesktopStatus();
-		setInterval(() => {
+		try { // try catch to prevent the page from breaking if the API is down
 			getApiData();
-		}, 6000);
+			refreshDesktopStatus();
+			setInterval(() => { getApiData(); }, 6000);
+		} catch (error) {
+			console.warn("Failed to fetch API data, server might be down - Check https://status.wav.blue/ for service status")
+			console.warn(error);
+		}
+		
 		setInterval(() => {
 			/**
 			* @type {string | null}
@@ -100,6 +137,7 @@
 		}, 5850);
 	});
 </script>
+<span class="shadowoverlay"></span>
 <span class="screenoverlay">
 	<img src="https://fur.dev/assets/corner.svg" alt="Corner" class="left cornerboilerplate" width="35rem">
 	<img src="https://fur.dev/assets/corner.svg" alt="Corner" class="right cornerboilerplate" width="35rem">
@@ -108,23 +146,41 @@
 </span>
 
 <div class="mainheader">
-	<h1>Hi, I'm <span class="gradtext">{loopedText}</span>! <span style="font-size: x-small;">(&gtω&lt)</span></h1>
+	<img src="favicon.png"width="175rem" height="175rem">
+
+	<h1 style="margin-top: 0px; margin-bottom: 0px;">
+		Hi, I'm <span class="gradtext">{loopedText}</span>!
+		<span style="font-size: x-small;">(&gtω&lt)</span>
+	</h1>
+	<span style="font-size: medium;">
+		Self-taught full-stack programmer and sometimes graphic designer
+	</span>
+	<br><br>
+	<button class="badgebtn shiny">FREE CRACK HERE!</button>
+	<button class="badgebtn">GITHUB</button>
+	<button class="badgebtn">GITHUB</button>
+	<button class="badgebtn">GITHUB</button>
+	<br><br>
+	<button class="badgebtn warning" on:click={thefunny}><img class="icon" src="/icons/warning.svg" alt="Icon">ARM WARHEAD</button>
+	<br><br><br><br>
 
 	<div class="card music">
 		<img class="icon" src="/icons/music.svg" alt="Music icon">
 		<div>
-			<span class="cardtext">{#if apiData.player.isPlaying}Listening to{:else}Paused on{/if} <b><code class="musicdesc">{apiData.song.track}</code></b>, by <b><code class="musicdesc">{apiData.artist.frontFacingName}</code></b>...</span>
+			<span class="cardtext">{#if apiData.song.track == "a ad" && apiData.song.coverUrl == "favicon.png"}Stuck listening to{:else if apiData.player.isPlaying}Listening to{:else}Paused on{/if} <b><code class="musicdesc">{apiData.song.track}</code></b><br>By <b><code class="musicdesc">{apiData.artist.frontFacingName}</code></b></span>
 			<br>
-			<img src="{apiData.song.coverUrl}" alt="Album cover" class="coverart" width="125rem">
+			<center>
+				<img src="{apiData.song.coverUrl}" alt="Album cover" class="coverart">
+			</center>
 		</div>
 	</div>
 	<br>
 	<div class="card">
 		<img class="icon" src="/icons/pc.svg" alt="Computer icon">
 		<div>
-			<span class="cardtext">My desktop is currently <b><code class="musicdesc">{apiDataMisc}</code></b>...</span>
+			<span class="cardtext">My desktop is currently <b><code class="musicdesc">{apiDataMisc}</code></b></span>
 			<br>
-			<button class="badgebtn warning" style="margin-left: 0px; margin-top: 0.15rem;" on:click={refreshDesktopStatus}>REFRESH</button>
+			<!--<button class="badgebtn warning" style="margin-left: 0px; margin-top: 0.15rem;" on:click={refreshDesktopStatus}>REFRESH</button>-->
 		</div>
 	</div>
 	<br>

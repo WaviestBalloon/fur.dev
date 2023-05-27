@@ -11,7 +11,7 @@
 	src: url(./arcade.ttf);
 }
 body {
-	background: #171919;
+	background: #161616;
 	background-image: url('https://fur.dev/dotlogoutbg.png');
 	background-size: 5px 5px;
 	background-position: center;
@@ -100,7 +100,6 @@ button:focus {
 .blockarea {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: center;
 }
 
 a {
@@ -332,10 +331,9 @@ b {
 	font-size: larger;
 }
 .coverart {
-	width: 4rem;
-	height: 4rem;
-	margin-top: 5px;
-	margin-top: 3px;
+	width: 6rem;
+	height: 6rem;
+	margin-top: 7px;
 }
 
 
@@ -343,8 +341,8 @@ h1 {
 	font-size: 3.55rem !important;
 }
 .mainheader {
-	margin-top: 25px;
-	margin-left: 25px;
+	margin-top: 45px;
+	margin-left: 45px;
 }
 .icon {
 	width: 1.25rem !important;
