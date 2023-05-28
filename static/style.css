@@ -239,6 +239,40 @@ b {
 		transform: translateX(1325%) skewX(-35deg);
 	}
 }
+.loadingshiny {
+	position: relative;
+	border: none;
+	overflow: hidden;
+}
+.loadingshiny:before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 10%;
+	height: 100%;
+	opacity: 0;
+	background-color: rgba(255, 255, 255, 0.15);
+	transform: translateX(-100%);
+	animation: loadingshiny-swipe 1.85s infinite cubic-bezier(0.04, 0.45, 0.98, 0.51);
+}
+@keyframes loadingshiny-swipe {
+	0% {
+		opacity: 0;
+		width: 10%;
+		transform: translateX(-325%);
+	}
+	50% {
+		opacity: 1;
+		width: 75%;
+		transform: translateX(400%);
+	}
+	100% {
+		opacity: 0;
+		width: 10%;
+		transform: translateX(900%);
+	}
+}
 
 .btn {
 	display: flex;
@@ -327,7 +361,7 @@ b {
 	background-size: cover;
 	background-attachment: fixed;
 }
-.musicdesc {
+.desc {
 	font-size: larger;
 }
 .coverart {

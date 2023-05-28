@@ -15,6 +15,12 @@
 		},
 	};
 	let apiDataMisc = "not responding";
+	let apiDataSteam = {
+		status: {
+			stateName: "Unknown",
+			game: null,
+		},
+	}
 	let loopedText = "Waviest";
 	let possibleNames = [
 		"Waviest",
@@ -25,8 +31,14 @@
 		"Wav",
 		"WaviestBalloon",
 	];
+	let loaded = {
+		spotify: false,
+		pc: false,
+		steam: false,
+	}
 	
 	function getApiData() {
+		loaded.spotify = false;
 		fetch("https://api.wav.blue/spotify")
 			.then(response => response.json())
 			.then(data => {
@@ -34,7 +46,6 @@
 				const code = data?.code;
 				if (code === 0) apiData = data;
 				else {
-					console.log("Unexpected API response");
 					switch (code) {
 						case 5:
 							apiData = {
@@ -71,6 +82,29 @@
 							break;
 					}
 				}
+				loaded.spotify = true;
+			}).catch(error => {
+				console.error(error);
+				return [];
+			});
+	}
+	function getApiDataForSteam() {
+		loaded.steam = false;
+		fetch("https://api.wav.blue/steam")
+			.then(response => response.json())
+			.then(data => {
+				console.log(data);
+				const code = data?.code;
+				if (code === 1) apiDataSteam = data;
+				else {
+					apiDataSteam = {
+						status: {
+							stateName: "Unknown",
+							game: null,
+						},
+					}
+				}
+				loaded.steam = true;
 			}).catch(error => {
 				console.error(error);
 				return [];
@@ -81,6 +115,7 @@
 			.then(response => response.json())
 			.then(data => {
 				apiDataMisc = data?.message;
+				loaded.pc = true;
 			}).catch(error => {
 				console.error(error);
 				return [];
@@ -107,7 +142,9 @@
 		try { // try catch to prevent the page from breaking if the API is down
 			getApiData();
 			refreshDesktopStatus();
+			getApiDataForSteam();
 			setInterval(() => { getApiData(); }, 6000);
+			setInterval(() => { getApiDataForSteam(); }, 15000);
 		} catch (error) {
 			console.warn("Failed to fetch API data, server might be down - Check https://status.wav.blue/ for service status")
 			console.warn(error);
@@ -146,7 +183,7 @@
 </span>
 
 <div class="mainheader">
-	<img src="favicon.png"width="175rem" height="175rem">
+	<img src="favicon.png" alt="FATAL Logo" width="175rem" height="175rem">
 
 	<h1 style="margin-top: 0px; margin-bottom: 0px;">
 		Hi, I'm <span class="gradtext">{loopedText}</span>!
@@ -164,10 +201,10 @@
 	<button class="badgebtn warning" on:click={thefunny}><img class="icon" src="/icons/warning.svg" alt="Icon">ARM WARHEAD</button>
 	<br><br><br><br>
 
-	<div class="card music">
+	<div class="card music {loaded.spotify === false ? "loadingshiny" : ""}">
 		<img class="icon" src="/icons/music.svg" alt="Music icon">
 		<div>
-			<span class="cardtext">{#if apiData.song.track == "a ad" && apiData.song.coverUrl == "favicon.png"}Stuck listening to{:else if apiData.player.isPlaying}Listening to{:else}Paused on{/if} <b><code class="musicdesc">{apiData.song.track}</code></b><br>By <b><code class="musicdesc">{apiData.artist.frontFacingName}</code></b></span>
+			<span class="cardtext">{#if apiData.song.track == "a ad" && apiData.song.coverUrl == "favicon.png"}Stuck listening to{:else if apiData.player.isPlaying}Listening to{:else}Paused on{/if} <b><code class="desc">{apiData.song.track}</code></b><br>By <b><code class="desc">{apiData.artist.frontFacingName}</code></b></span>
 			<br>
 			<center>
 				<img src="{apiData.song.coverUrl}" alt="Album cover" class="coverart">
@@ -175,12 +212,18 @@
 		</div>
 	</div>
 	<br>
-	<div class="card">
+	<div class="card {loaded.pc === false ? "loadingshiny" : ""}">
 		<img class="icon" src="/icons/pc.svg" alt="Computer icon">
 		<div>
-			<span class="cardtext">My desktop is currently <b><code class="musicdesc">{apiDataMisc}</code></b></span>
-			<br>
+			<span class="cardtext">My desktop is currently <b><code class="desc">{apiDataMisc}</code></b></span>
 			<!--<button class="badgebtn warning" style="margin-left: 0px; margin-top: 0.15rem;" on:click={refreshDesktopStatus}>REFRESH</button>-->
+		</div>
+	</div>
+	<br>
+	<div class="card {loaded.steam === false ? "loadingshiny" : ""}">
+		<img class="icon" src="/icons/steam.svg" alt="Steam icon">
+		<div>
+			<span class="cardtext"><b><code class="desc">{#if apiDataSteam.status.game}{apiDataSteam.status.stateName} {apiDataSteam.status.game}{:else}{apiDataSteam.status.stateName}{/if}</code></b> on Steam</span>
 		</div>
 	</div>
 	<br>
