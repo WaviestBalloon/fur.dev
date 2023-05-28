@@ -23,6 +23,7 @@
 	}
 	let apiDataTime = {
 		formattedTime: "Unknown",
+		formattedUSTime: "Unknown",
 		epoch: 0,
 	};
 	let loopedText = "Waviest";
@@ -156,6 +157,7 @@
 				.then(data => {
 					apiDataTime = {
 						formattedTime: data.time,
+						formattedUSTime: new Date(data.timeEpoch).toLocaleTimeString("en-US"),
 						epoch: data.timeEpoch,
 					};
 					loaded.time = true;
@@ -163,6 +165,7 @@
 						let newTime = apiDataTime.epoch + 1000;
 						apiDataTime = {
 							formattedTime: new Date(newTime).toLocaleTimeString(),
+							formattedUSTime: new Date(newTime).toLocaleTimeString("en-US"),
 							epoch: newTime,
 						};
 						console.log(apiDataTime);
@@ -256,7 +259,7 @@
 	<div class="card {loaded.time === false ? "loadingshiny" : ""}">
 		<img class="icon" src="/icons/time.svg" alt="Clock icon">
 		<div>
-			<span class="cardtext">It is currently <b><code class="desc">{apiDataTime.formattedTime}</code></b> for me</span>
+			<span class="cardtext">It is currently <b><code class="desc">{apiDataTime.formattedTime} ({apiDataTime.formattedUSTime})</code></b> for me</span>
 		</div>
 	</div>
 	<br>
