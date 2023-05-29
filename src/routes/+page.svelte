@@ -2,22 +2,22 @@
 	import { onMount } from "svelte";
 	let apiData = {
 		song: {
-			track: "nothing",
+			track: "/dev/urandom",
 			coverUrl: "favicon.png",
 		},
 		artist: {
-			frontFacingName: "block.minecraft.air",
+			frontFacingName: "the Linux kernel",
 			url: "https://wav.blue/",
 		},
 		player: {
 			percentage: 0,
-				isPlaying: true,
+			isPlaying: true,
 		},
 	};
-	let apiDataMisc = "not responding";
+	let apiDataMisc = "[ Updating Status ]";
 	let apiDataSteam = {
 		status: {
-			stateName: "Unknown",
+			stateName: "[ Updating Status ]",
 			game: null,
 		},
 	}
