@@ -164,7 +164,7 @@
 					setInterval(() => {
 						let newTime = apiDataTime.epoch + 1000;
 						apiDataTime = {
-							formattedTime: new Date(newTime).toLocaleTimeString(),
+							formattedTime: new Date(newTime).toLocaleTimeString("en-GB"),
 							formattedUSTime: new Date(newTime).toLocaleTimeString("en-US"),
 							epoch: newTime,
 						};
