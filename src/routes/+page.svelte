@@ -21,6 +21,11 @@
 			game: null,
 		},
 	}
+	let apiDataTime = {
+		formattedTime: "?",
+		formattedUSTime: "?",
+		epoch: 0,
+	};
 	let loopedText = "Waviest";
 	let possibleNames = [
 		"Waviest",
@@ -35,6 +40,7 @@
 		spotify: false,
 		pc: false,
 		steam: false,
+		time: false,
 	}
 	
 	function getApiData() {
@@ -145,6 +151,29 @@
 			getApiDataForSteam();
 			setInterval(() => { getApiData(); }, 6000);
 			setInterval(() => { getApiDataForSteam(); }, 15000);
+
+			fetch("https://api.wav.blue/currenttime")
+				.then(response => response.json())
+				.then(data => {
+					apiDataTime = {
+						formattedTime: data.time,
+						formattedUSTime: new Date(data.timeEpoch).toLocaleTimeString("en-US"),
+						epoch: data.timeEpoch,
+					};
+					loaded.time = true;
+					setInterval(() => {
+						let newTime = apiDataTime.epoch + 1000;
+						apiDataTime = {
+							formattedTime: new Date(newTime).toLocaleTimeString(),
+							formattedUSTime: new Date(newTime).toLocaleTimeString("en-US"),
+							epoch: newTime,
+						};
+						console.log(apiDataTime);
+					}, 1000);
+				}).catch(error => {
+					console.error(error);
+					return [];
+				});
 		} catch (error) {
 			console.warn("Failed to fetch API data, server might be down - Check https://status.wav.blue/ for service status")
 			console.warn(error);
@@ -212,6 +241,13 @@
 		</div>
 	</div>
 	<br>
+	<div class="card {loaded.steam === false ? "loadingshiny" : ""}">
+		<img class="icon" src="/icons/steam.svg" alt="Steam icon">
+		<div>
+			<span class="cardtext"><b><code class="desc">{#if apiDataSteam.status.game}{apiDataSteam.status.stateName} {apiDataSteam.status.game}{:else}{apiDataSteam.status.stateName}{/if}</code></b> on Steam</span>
+		</div>
+	</div>
+	<br>
 	<div class="card {loaded.pc === false ? "loadingshiny" : ""}">
 		<img class="icon" src="/icons/pc.svg" alt="Computer icon">
 		<div>
@@ -220,10 +256,10 @@
 		</div>
 	</div>
 	<br>
-	<div class="card {loaded.steam === false ? "loadingshiny" : ""}">
-		<img class="icon" src="/icons/steam.svg" alt="Steam icon">
+	<div class="card {loaded.time === false ? "loadingshiny" : ""}">
+		<img class="icon" src="/icons/time.svg" alt="Clock icon">
 		<div>
-			<span class="cardtext"><b><code class="desc">{#if apiDataSteam.status.game}{apiDataSteam.status.stateName} {apiDataSteam.status.game}{:else}{apiDataSteam.status.stateName}{/if}</code></b> on Steam</span>
+			<span class="cardtext">It is currently <b><code class="desc">{apiDataTime.formattedTime} ({apiDataTime.formattedUSTime})</code></b> for me</span>
 		</div>
 	</div>
 	<br>
