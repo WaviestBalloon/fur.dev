@@ -214,20 +214,20 @@
 <div class="mainheader">
 	<img src="favicon.png" alt="FATAL Logo" width="175rem" height="175rem">
 
-	<h1 style="margin-top: 0px; margin-bottom: 0px;">
+	<!--<h1 style="margin-top: 0px; margin-bottom: 0px;">
 		Hi, I'm <span class="gradtext">{loopedText}</span>!
 		<span style="font-size: x-small;">(&gtω&lt)</span>
 	</h1>
 	<span style="font-size: medium;">
 		Self-taught full-stack programmer and sometimes graphic designer
-	</span>
+	</span>-->
 	<br><br>
-	<button class="badgebtn shiny">FREE CRACK HERE!</button>
+	<button class="badgebtn shiny">FREE CRAP HERE!</button>
 	<button class="badgebtn">GITHUB</button>
 	<button class="badgebtn">GITHUB</button>
 	<button class="badgebtn">GITHUB</button>
 	<br><br>
-	<button class="badgebtn warning" on:click={thefunny}><img class="icon" src="/icons/warning.svg" alt="Icon">ARM WARHEAD</button>
+	<button class="badgebtn warning" on:click={thefunny}><img class="icon" src="/icons/warning.svg" alt="Icon">ARM NUCLEAR WARHEADS</button>
 	<br><br><br><br>
 
 	<div class="card music {loaded.spotify === false ? "loadingshiny" : ""}">
