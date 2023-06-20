@@ -179,10 +179,10 @@
 			console.warn(error);
 		}
 		
-		setInterval(() => {
+		/*setInterval(() => {
 			/**
 			* @type {string | null}
-			*/
+			*
 			let prev = null;
 			let intervalId = setInterval(() => {
 				if (loopedText.length >= 1) {
@@ -200,7 +200,7 @@
 					clearInterval(intervalId);
 				}
 			}, 50);
-		}, 5850);
+		}, 5850);*/
 	});
 </script>
 <span class="shadowoverlay"></span>
